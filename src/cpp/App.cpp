@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Camera.h"
 #include "Framebuffer.h"
 #include "Model.h"
 #include "Window.h"
@@ -27,7 +28,9 @@ GLSLProgram *display;
 // Render buffer
 Framebuffer *framebuffer;
 
+// Window and camera
 Window *window;
+Camera *camera;
 
 // Displaying model
 Model *displaymodel;
@@ -35,16 +38,7 @@ Model *displaymodel;
 // Model list
 std::vector<Model *> models;
 
-// Last frame time
-double lastFrame;
-
 int main() {
-  std::srand(static_cast<unsigned int>(std::time(nullptr)));
-
-  if (!glfwInit()) {
-    exit(1);
-  }
-
   window = new Window(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
 
   if (!window->isValid()) {
@@ -64,33 +58,17 @@ int main() {
     std::cout << "Loading model: #" << i << std::endl;
 
     Model *model;
-    model = new Model("assets/models/plane.obj");
+    model = new Model("assets/models/plane/model.obj");
     models.push_back(model);
   }
 
   shader = setupShader("src/glsl/general.vs", "src/glsl/general.fs");
   display = setupShader("src/glsl/display.vs", "src/glsl/display.fs");
   framebuffer = new Framebuffer(FRAMEBUFFER_DIMENSIONS, FRAMEBUFFER_DIMENSIONS);
+  camera = new Camera();
 
-  glClearColor(0.5f, 0.1f, 0.1f, 1.0f);
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
-
-  // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit
-  // <-> 100 units
-  glm::mat4 Projection = glm::perspective(
-      glm::radians(45.0f),
-      (float)DEFAULT_WINDOW_WIDTH / (float)DEFAULT_WINDOW_HEIGHT, 0.1f, 100.0f);
-
-  // Camera matrix
-  glm::mat4 View = glm::lookAt(
-      glm::vec3(25, 5, 10), // Camera is at (4,3,3), in World Space
-      glm::vec3(0, 0, 0),   // and looks at the origin
-      glm::vec3(0, 1, 0)    // Head is up (set to 0,-1,0 to look upside-down)
-  );
-  glm::mat4 mvp =
-      Projection *
-      View; // Remember, matrix multiplication is the other way around
 
   while (!window->shouldClose()) {
     RenderResult result = window->render();
@@ -99,7 +77,7 @@ int main() {
     window->clear();
 
     shader->use();
-    shader->setUniform("MVP", mvp);
+    shader->setUniform("MVP", camera->getViewMatrix());
     for (int i = 0; i < models.size(); i++) {
       models.at(i)->setRotation(
           glm::vec3(0.0f, (float)result.currentTime * 100 - 90, 0.0f));
@@ -109,7 +87,7 @@ int main() {
     }
     framebuffer->unbind();
 
-    window->clear();
+    window->clean();
     display->use();
     framebuffer->use();
     displaymodel->draw();

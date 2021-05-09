@@ -9,15 +9,19 @@
 double WINDOW_LAST_FRAME = 0;
 int WINDOW_WIDTH = 0, WINDOW_HEIGHT = 0;
 
-void framebuffer_size_callback(GLFWwindow *, int new_screen_width,
-                               int new_screen_height) {
-  Window::setDimensions(new_screen_width, new_screen_height);
-  glViewport(0, 0, new_screen_width, new_screen_height);
-}
+// void framebuffer_size_callback(GLFWwindow *, int new_screen_width,
+//                                int new_screen_height) {
+//   Window::setDimensions(new_screen_width, new_screen_height);
+//   glViewport(0, 0, new_screen_width, new_screen_height);
+// }
 
 Window::Window(int width, int height, char *title) {
-  WINDOW_WIDTH = width * 2;
-  WINDOW_HEIGHT = height * 2;
+  if (!glfwInit()) {
+    exit(1);
+  }
+
+  WINDOW_WIDTH = width;
+  WINDOW_HEIGHT = height;
   this->title = title;
 
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -29,12 +33,13 @@ Window::Window(int width, int height, char *title) {
 #endif
 
   window = glfwCreateWindow(width, height, this->title, NULL, NULL);
-  glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+  // glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
   glfwMakeContextCurrent(window);
   glfwSwapInterval(0);
 }
 
 void Window::poll() {
+  glfwGetWindowSize(window, &WINDOW_WIDTH, &WINDOW_HEIGHT);
   glfwSwapBuffers(window);
   glfwPollEvents();
 }
@@ -54,8 +59,6 @@ RenderResult Window::render() {
        << "FPS: " << (int)ceil(1 / deltaTime) << "  "
        << "FrameTime: " << deltaTime << "ms";
   glfwSetWindowTitle(window, outs.str().c_str());
-
-  glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
   return result;
 }
 
@@ -65,6 +68,10 @@ void Window::setTitle(char *title) { this->title = title; }
 void Window::clear() {
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+void Window::clean() {
+  this->clear();
+  glViewport(0, 0, WINDOW_WIDTH * 2, WINDOW_HEIGHT * 2);
 }
 
 void Window::setDimensions(int width, int height) {

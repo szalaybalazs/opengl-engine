@@ -34,6 +34,7 @@ public:
   void poll();
   void setTitle(char *title);
   void clear();
+  void clean();
   static void setDimensions(int width, int height);
   static void setDimensions(WindowDimensions dimensions);
   static WindowDimensions getDimensions();
