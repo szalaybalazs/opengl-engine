@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "Framebuffer.h"
 #include "Model.h"
+#include "Texture.h"
 #include "Window.h"
 
 #include <cstdlib>
@@ -18,9 +19,6 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-
 // Shaders
 GLSLProgram *shader;
 GLSLProgram *display;
@@ -34,6 +32,7 @@ Camera *camera;
 
 // Displaying model
 Model *displaymodel;
+Texture *texture;
 
 // Model list
 std::vector<Model *> models;
@@ -53,6 +52,7 @@ int main() {
   }
 
   displaymodel = new Model("assets/models/display.obj");
+  texture = new Texture("assets/models/plane/diffuse.jpg");
 
   for (int i = 0; i < 2; i++) {
     std::cout << "Loading model: #" << i << std::endl;
@@ -78,9 +78,10 @@ int main() {
 
     shader->use();
     shader->setUniform("MVP", camera->getViewMatrix());
+    texture->use();
     for (int i = 0; i < models.size(); i++) {
       models.at(i)->setRotation(
-          glm::vec3(0.0f, (float)result.currentTime * 100 - 90, 0.0f));
+          glm::vec3(0.0f, (float)result.currentTime * 10 - 90, 0.0f));
       models.at(i)->setPosition(glm::vec3((float)i * -16.0f, 0.0f, 0.0f));
       shader->setUniform("uModelPosition", models.at(i)->getModelMatrix());
       models.at(i)->draw();
