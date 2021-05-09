@@ -33,6 +33,7 @@ Camera *camera;
 // Displaying model
 Model *displaymodel;
 Texture *texture;
+Texture *texture2;
 
 // Model list
 std::vector<Model *> models;
@@ -53,12 +54,14 @@ int main() {
 
   displaymodel = new Model("assets/models/display.obj");
   texture = new Texture("assets/models/plane/diffuse.jpg");
+  texture2 = new Texture("assets/models/shuttle/diffuse.jpg");
 
   for (int i = 0; i < 2; i++) {
     std::cout << "Loading model: #" << i << std::endl;
 
     Model *model;
-    model = new Model("assets/models/plane/model.obj");
+    model = new Model(i == 1 ? "assets/models/shuttle/model.obj"
+                             : "assets/models/plane/model.obj");
     models.push_back(model);
   }
 
@@ -70,6 +73,10 @@ int main() {
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
 
+  // glEnable(GL_CULL_FACE);
+  // glCullFace(GL_FRONT);
+  // glFrontFace(GL_CCW);
+
   while (!window->shouldClose()) {
     RenderResult result = window->render();
 
@@ -78,8 +85,13 @@ int main() {
 
     shader->use();
     shader->setUniform("MVP", camera->getViewMatrix());
-    texture->use();
     for (int i = 0; i < models.size(); i++) {
+      if (i == 1) {
+        models.at(i)->setScale(0.5);
+        texture2->use();
+      } else {
+        texture->use();
+      }
       models.at(i)->setRotation(
           glm::vec3(0.0f, (float)result.currentTime * 10 - 90, 0.0f));
       models.at(i)->setPosition(glm::vec3((float)i * -16.0f, 0.0f, 0.0f));
