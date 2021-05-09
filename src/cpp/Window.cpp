@@ -36,6 +36,13 @@ Window::Window(int width, int height, char *title) {
   // glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
   glfwMakeContextCurrent(window);
   glfwSwapInterval(0);
+
+  glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LESS);
+
+  // glEnable(GL_CULL_FACE);
+  // glCullFace(GL_FRONT);
+  // glFrontFace(GL_CW);
 }
 
 void Window::poll() {

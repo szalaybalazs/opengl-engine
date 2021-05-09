@@ -9,14 +9,14 @@
 
 Camera::Camera() {
   position = glm::vec3(10.0f, 5.0f, 0.0f);
-  origin = glm::vec3(0.0f);
+  origin = glm::vec3(0.0f, 2.0f, 0.0f);
 }
 
 glm::mat4 Camera::getProjectionMatrix() {
   WindowDimensions dimensions = Window::getDimensions();
   glm::mat4 Projection = glm::perspective(
       glm::radians(45.0f), (float)dimensions.width / (float)dimensions.height,
-      0.1f, 100.0f);
+      0.1f, 10000.0f);
 
   return Projection;
 }
