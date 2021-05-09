@@ -17,5 +17,6 @@ private:
 
 public:
   Texture(const char *filename);
-  void use();
+  void draw();
+  void update();
 };

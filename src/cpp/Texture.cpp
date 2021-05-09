@@ -36,7 +36,11 @@ Texture::Texture(const char *filename) {
   stbi_image_free(data);
 }
 
-void Texture::use() {
+void Texture::update() {
+  //
+}
+
+void Texture::draw() {
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, texture);
 }

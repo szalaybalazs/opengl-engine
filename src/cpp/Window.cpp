@@ -62,7 +62,14 @@ RenderResult Window::render() {
   return result;
 }
 
-bool Window::isValid() { return !!window; }
+bool Window::isValid() {
+  glewExperimental = GL_TRUE;
+  if (glewInit() != GLEW_OK || !window) {
+    glfwTerminate();
+    return false;
+  }
+  return true;
+}
 bool Window::shouldClose() { return glfwWindowShouldClose(window); }
 void Window::setTitle(char *title) { this->title = title; }
 void Window::clear() {
