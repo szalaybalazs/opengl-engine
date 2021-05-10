@@ -11,9 +11,9 @@ void Scene::update(double deltaTime) {
   for (int i = 0; i < models.size(); i++) {
     Model *model = models.at(i);
     model->update();
-    glm::vec3 currentRotation = model->getRotation();
-    currentRotation.y += deltaTime * 10;
-    model->setRotation(currentRotation);
+    // glm::vec3 currentRotation = model->getRotation();
+    // currentRotation.y += deltaTime * 10;
+    // model->setRotation(currentRotation);
   }
 }
 
