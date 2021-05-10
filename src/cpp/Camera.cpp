@@ -33,3 +33,5 @@ glm::mat4 Camera::getViewMatrix() {
 
   return mvp;
 }
+
+glm::vec3 Camera::getPosition() { return this->position; }

@@ -1,6 +1,7 @@
 #include "GLSLProgram.h"
 #include "glm/gtc/type_ptr.hpp"
 #include <fstream>
+#include <iostream>
 #include <vector>
 
 using glm::mat3;
@@ -119,9 +120,15 @@ void GLSLProgram::setUniform(const char *name, float x, float y, float z) {
     glUniform3f(location, x, y, z);
 }
 
-void GLSLProgram::setUniform(const char *name, const vec3 &v) {
+void GLSLProgram::setPositionsUniform(const char *name, const float v[]) {
   GLint location = getUniformLocation(name);
 
+  if (location != -1)
+    glUniform3fv(location, sizeof(v) / sizeof(v[0]), v);
+}
+
+void GLSLProgram::setUniform(const char *name, const vec3 &v) {
+  GLint location = getUniformLocation(name);
   if (location != -1)
     glUniform3fv(location, 1, value_ptr(v));
 }
@@ -167,7 +174,12 @@ void GLSLProgram::setUniform(const char *name, bool val) {
   if (location != -1)
     glUniform1i(location, val);
 }
+void GLSLProgram::setUniform(const char *name, const float v[]) {
+  GLint location = getUniformLocation(name);
 
+  if (location != -1)
+    glUniform1fv(location, sizeof(v) / sizeof(v[0]), v);
+}
 void GLSLProgram::printActiveUniforms() {
   GLint i;
   GLint count;

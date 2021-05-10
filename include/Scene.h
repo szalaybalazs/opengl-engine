@@ -13,16 +13,19 @@
 #include <GLSLProgram.h>
 
 #include "Camera.h"
+#include "Light.h"
 #include "Model.h"
 
 class Scene {
 private:
   std::vector<Model *> models;
+  std::vector<Light *> lights;
 
   Camera *camera;
   GLSLProgram *shader;
 
   static Scene *instance;
+  static bool compareLights(Light *l1, Light *l2);
 
 public:
   Scene(GLSLProgram *shader);
@@ -35,7 +38,9 @@ public:
   }
 
   void addModel(Model *model);
+  void addLight(Light *light);
   void update(double deltaTime);
   void draw();
   void render(double deltaTime);
+  void renderLights();
 };

@@ -28,6 +28,8 @@ public:
   void setUniform(const char *name, float x, float y);
   void setUniform(const char *name, float x, float y, float z);
   void setUniform(const char *name, const glm::vec3 &v);
+  void setUniform(const char *name, const float v[]);
+  void setPositionsUniform(const char *name, const float v[]);
   void setUniform(const char *name, const glm::vec4 &v);
   void setUniform(const char *name, const glm::mat4 &m);
   void setUniform(const char *name, const glm::mat3 &m);

@@ -1,6 +1,7 @@
 #include "App.h"
 #include "Display.h"
 #include "GLSLProgram.h"
+#include "Light.h"
 #include "Mesh.h"
 #include "Model.h"
 #include "Scene.h"
@@ -49,6 +50,15 @@ int main() {
   ground->addMesh(groundMesh);
   ground->addTexture(groundTexture);
   scene->addModel(ground);
+
+  Light *light1 = new Light();
+  light1->setPosition(glm::vec3(5.0f, 5.0f, -10.0f));
+  Light *light2 = new Light();
+  light2->setPosition(glm::vec3(-20.0f, 15.0f, 0.0f));
+  light2->setColor(glm::vec3(0.4f, 1.0f, 0.8f));
+
+  scene->addLight(light1);
+  scene->addLight(light2);
 
   // Test model loader
   for (int i = 0; i < 50; i++) {
