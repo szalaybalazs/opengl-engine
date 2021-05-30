@@ -11,6 +11,8 @@ private:
   unsigned int framebuffer;
   unsigned int colorbuffer;
   unsigned int rbo;
+  unsigned int depthrenderbuffer;
+  unsigned int depthMap;
   int width, height;
 
 public:

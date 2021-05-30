@@ -3,6 +3,7 @@
 in vec3 vUv;
 in vec3 vNormal;
 in vec3 vPosition;
+in vec4 vScreenPosition;
 
 out vec4 color;
 
@@ -50,6 +51,8 @@ void main() {
     ambient += ambientStrength * lightColor * attenuation;
     diffuse += diff * lightColor * attenuation * lightStrength;
   }
+
+  gl_FragDepth = vScreenPosition.z / 120.0;
 
   color = vec4(texture.rgb * (ambient + diffuse), 1.0f);
 }

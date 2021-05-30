@@ -16,7 +16,7 @@ glm::mat4 Camera::getProjectionMatrix() {
   WindowDimensions dimensions = Window::getDimensions();
   glm::mat4 Projection = glm::perspective(
       glm::radians(45.0f), (float)dimensions.width / (float)dimensions.height,
-      0.1f, 10000.0f);
+      0.1f, 60.0f);
 
   return Projection;
 }

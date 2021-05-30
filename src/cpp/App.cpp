@@ -61,11 +61,12 @@ int main() {
   scene->addLight(light2);
 
   // Test model loader
-  for (int i = 0; i < 50; i++) {
+  for (int i = 0; i < 5; i++) {
     Model *model = new Model();
     model->addMesh(planeMesh);
     model->addTexture(planeTexture);
     model->setPosition(glm::vec3((float)i * -16.0f, 0.0f, 0.0f));
+    model->setRotation(glm::vec3(0.0f, 135.0f, 0.0f));
     model->setScale(0.4f);
     scene->addModel(model);
   }
@@ -76,8 +77,9 @@ int main() {
     display->bindFramebuffer();
     scene->render(result.deltaTime);
     display->unbindFramebuffer();
-
+    glDisable(GL_ALPHA_TEST);
     display->render();
+    glEnable(GL_ALPHA_TEST);
     window->poll();
   }
 
