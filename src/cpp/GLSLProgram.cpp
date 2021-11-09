@@ -28,7 +28,9 @@ bool GLSLProgram::compileShaderFromString(const string &source, GLuint type) {
 
   if (isCompiled == GL_TRUE) {
     glAttachShader(handle, shaderID);
-    printf("Shader compiled successfully.\n");
+    #if defined(DEBUG_SHADER)
+      printf("Shader compiled successfully.\n");
+    #endif
   } else {
     GLint maxLength = 0;
     glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
@@ -37,8 +39,7 @@ bool GLSLProgram::compileShaderFromString(const string &source, GLuint type) {
       std::vector<char> infoLog(maxLength + 1);
       glGetShaderInfoLog(shaderID, maxLength, nullptr, infoLog.data());
       logString = string(std::begin(infoLog), std::end(infoLog));
-      printf(
-          "One or more errors were encountered while compiling this shader.\n");
+      printf("One or more errors were encountered while compiling this shader.\n");
     }
   }
 
@@ -71,7 +72,9 @@ bool GLSLProgram::link() {
   glGetProgramiv(handle, GL_LINK_STATUS, &isLinked);
   if (isLinked == GL_TRUE) {
     linked = true;
-    printf("Shader program linked successfully.\n");
+    #if defined(DEBUG_SHADER)
+      printf("Shader program linked successfully.\n");
+    #endif
   } else {
     GLint maxLength = 0;
     glGetProgramiv(handle, GL_INFO_LOG_LENGTH, &maxLength);
@@ -192,11 +195,15 @@ void GLSLProgram::printActiveUniforms() {
   GLsizei length;             // name length
 
   glGetProgramiv(handle, GL_ACTIVE_UNIFORMS, &count);
-  printf("Active Uniforms: %d\n", count);
+  #if defined(DEBUG_SHADER)
+    printf("Active Uniforms: %d\n", count);
+  #endif
 
   for (i = 0; i < count; i++) {
     glGetActiveUniform(handle, (GLuint)i, bufSize, &length, &size, &type, name);
-    printf("Uniform #%d Type: %u Name: %s\n", i, type, name);
+    #if defined(DEBUG_SHADER)
+      printf("Uniform #%d Type: %u Name: %s\n", i, type, name);
+    #endif
   }
 }
 
@@ -212,11 +219,15 @@ void GLSLProgram::printActiveAttribs() {
   GLsizei length;             // name length
 
   glGetProgramiv(handle, GL_ACTIVE_ATTRIBUTES, &count);
-  printf("Active Attributes: %d\n", count);
+  #if defined(DEBUG_SHADER)
+    printf("Active Attributes: %d\n", count);
+  #endif
 
   for (i = 0; i < count; i++) {
     glGetActiveAttrib(handle, (GLuint)i, bufSize, &length, &size, &type, name);
-    printf("Attribute #%d Type: %u Name: %s\n", i, type, name);
+    #if defined(DEBUG_SHADER)
+      printf("Attribute #%d Type: %u Name: %s\n", i, type, name);
+    #endif
   }
 }
 

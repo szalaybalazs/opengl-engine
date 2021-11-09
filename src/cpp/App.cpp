@@ -12,6 +12,8 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+// #define DEBUG_SHADER;
+
 // Global scene
 Scene *scene;
 
@@ -74,12 +76,12 @@ int main() {
   while (!window->shouldClose()) {
     RenderResult result = window->render();
 
-    // display->bindFramebuffer();
+    display->bindFramebuffer();
     scene->render(result.deltaTime);
-    // display->unbindFramebuffer();
+    display->unbindFramebuffer();
     
     // glDisable(GL_ALPHA_TEST);
-    // display->render();
+    display->render();
     // glEnable(GL_ALPHA_TEST);
     
     window->poll();

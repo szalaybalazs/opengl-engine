@@ -16,7 +16,7 @@ private:
   Framebuffer *framebuffer;
   Mesh *displayMesh;
   Window *window;
-  int framebufferDimensions = 120;
+  int framebufferDimensions = 12000;
 
 public:
   Display(Window *window, int width, int height);

@@ -8,6 +8,9 @@ Scene::Scene(GLSLProgram *shader) {
 }
 
 void Scene::update(double deltaTime) {
+  glm::vec3 cameraPosition = this->camera->getPosition();
+  cameraPosition.y = sin(this->runningTime) + 2.0;
+  this->camera->setPosition(cameraPosition);
   for (int i = 0; i < models.size(); i++) {
     Model *model = models.at(i);
     model->update();
@@ -27,8 +30,8 @@ void Scene::renderLights() {
 
   std::sort(lights.begin(), lights.end(), compareLights);
 
-  float positions[number * 3];
-  float colors[number * 3];
+  float positions[number * 3];
+  float colors[number * 3];
   float strengths[number];
 
   // Rendering lights, only one for now
@@ -59,6 +62,7 @@ void Scene::draw() {
 }
 
 void Scene::render(double deltaTime) {
+  this->runningTime = this->runningTime + deltaTime;
   shader->use();
   shader->setUniform("MVP", camera->getViewMatrix());
   update(deltaTime);

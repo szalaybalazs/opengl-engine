@@ -43,4 +43,7 @@ public:
   void draw();
   void render(double deltaTime);
   void renderLights();
+
+private:
+  float runningTime = 0;
 };
