@@ -39,11 +39,9 @@ void Scene::renderLights() {
     std::string strength = "u_light_strengths[" + std::to_string(i) + "]";
     std::string position = "u_light_positions[" + std::to_string(i) + "]";
     std::string color = "u_light_colors[" + std::to_string(i) + "]";
-    std::string constant =
-        "u_light_configs[" + std::to_string(i) + "].constant";
+    std::string constant = "u_light_configs[" + std::to_string(i) + "].constant";
     std::string linear = "u_light_configs[" + std::to_string(i) + "].linear";
-    std::string quadratic =
-        "u_light_configs[" + std::to_string(i) + "].quadratic";
+    std::string quadratic = "u_light_configs[" + std::to_string(i) + "].quadratic";
 
     shader->setUniform(position.c_str(), light->getPosition());
     shader->setUniform(color.c_str(), light->getColor());

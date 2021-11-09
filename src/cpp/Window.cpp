@@ -52,6 +52,7 @@ void Window::poll() {
 }
 
 RenderResult Window::render() {
+  this->clear();
   double currentTime = glfwGetTime();
   double deltaTime = currentTime - WINDOW_LAST_FRAME;
   WINDOW_LAST_FRAME = currentTime;

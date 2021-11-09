@@ -1,30 +1,19 @@
 {
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
     "version": "2.0.0",
     "tasks": [
-        {
-            "label": "build opengl-app",
-            "type": "shell",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "windows": {
-                "command": ".vscode/build_windows.bat"
-            },
-            "osx": {
-                "command": "rm -rf build; mkdir build; cd build; clang++ -g -I ${workspaceRoot}/include/ -I ${workspaceRoot}/lib/ -framework OpenGL -lglew -lglfw ${workspaceRoot}/src/cpp/*.cpp -o opengl-app"
-            },
-            "linux": {
-                "command": "rm -rf build; mkdir build; cd build; g++ -g -I ${workspaceRoot}/include/ ${workspaceRoot}/src/cpp/*.cpp -lGL -lGLEW -lglfw -o opengl-app"
-            }
-        },
-        {
-            "label": "run opengl-app",
-            "type": "shell",
-            "command": "./build/opengl-app",
-            "problemMatcher": [
-                "$gcc"
-            ]
+      {
+        "label": "buildgame",
+        "command": "rm -rf build; mkdir build; cd build; clang++ -g -I ${workspaceRoot}/include/ -I /usr/local/include/ -I ${workspaceRoot}/lib/ -framework OpenGL -L ${workspaceRoot}/lib/ -lglew -lglfw ${workspaceRoot}/src/cpp/*.cpp -o opengl-app",
+        // "command": "g++ main.cpp RenderWindow.cpp -o play -I include -L lib -lSDL2main -lSDL2 -lSDL2_image -g",
+        "args": [],
+        "type": "shell",
+        "problemMatcher": ["$gcc"],
+        "group": {
+          "kind": "build",
+          "isDefault": true
         }
+      }
     ]
-}
+  }

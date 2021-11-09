@@ -13,7 +13,7 @@ struct PointLight {
   float quadratic;
 };
 
-uniform sampler2D screenTexture;
+uniform sampler2D u_texture;
 
 uniform vec3 u_light_positions[10];
 uniform vec3 u_light_colors[10];
@@ -26,7 +26,7 @@ void main() {
 
   vec3 ambient = vec3(0.0);
 
-  vec3 texture = texture(screenTexture, vec2(vUv.x, abs(1.0f - vUv.y))).rgb;
+  vec3 texture = texture(u_texture, vec2(vUv.x, abs(1.0f - vUv.y))).rgb;
 
   vec3 norm = normalize(vNormal);
   vec3 diffuse = vec3(0.0);

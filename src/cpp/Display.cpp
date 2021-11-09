@@ -25,4 +25,5 @@ void Display::bindFramebuffer() {
   framebuffer->bind();
   window->clear();
 }
+
 void Display::unbindFramebuffer() { framebuffer->unbind(); }

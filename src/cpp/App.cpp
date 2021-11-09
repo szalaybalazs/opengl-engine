@@ -74,12 +74,14 @@ int main() {
   while (!window->shouldClose()) {
     RenderResult result = window->render();
 
-    display->bindFramebuffer();
+    // display->bindFramebuffer();
     scene->render(result.deltaTime);
-    display->unbindFramebuffer();
-    glDisable(GL_ALPHA_TEST);
-    display->render();
-    glEnable(GL_ALPHA_TEST);
+    // display->unbindFramebuffer();
+    
+    // glDisable(GL_ALPHA_TEST);
+    // display->render();
+    // glEnable(GL_ALPHA_TEST);
+    
     window->poll();
   }
 
