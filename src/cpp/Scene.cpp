@@ -5,6 +5,7 @@ Scene *Scene::instance = 0;
 Scene::Scene(GLSLProgram *shader) {
   this->shader = shader;
   this->camera = new Camera();
+  runningTime = 0.0;
 }
 
 void Scene::update(double deltaTime) {

@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "Texture.h"
 #include "Window.h"
+#include "Keyboard.h"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -23,10 +24,11 @@ GLSLProgram *display;
 
 // Window and camera
 Window *window;
-Camera *camera = new Camera();
+Keyboard *keyboard;
 
 int main() {
   window = new Window(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
+  keyboard = new Keyboard(window);
 
   if (!window->isValid()) {
     return 1;
@@ -77,12 +79,8 @@ int main() {
     RenderResult result = window->render();
 
     display->bindFramebuffer();
-    int state = display->getWindow()->getButtonState(GLFW_KEY_2);
-    if (state == GLFW_PRESS) {
-      glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-    } else {
-      glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-    }
+    scene->render(result.deltaTime);
+    display->bindDepthBuffer();
     scene->render(result.deltaTime);
     display->unbindFramebuffer();
     
@@ -91,6 +89,7 @@ int main() {
     glEnable(GL_ALPHA_TEST);
     
     window->poll();
+    keyboard->poll();
   }
 
   return 0;

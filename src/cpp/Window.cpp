@@ -15,10 +15,8 @@ int WINDOW_WIDTH = 0, WINDOW_HEIGHT = 0;
 //   glViewport(0, 0, new_screen_width, new_screen_height);
 // }
 
-Window::Window(int width, int height, char *title) {
-  if (!glfwInit()) {
-    exit(1);
-  }
+Window::Window(int width, int height, const char *title) {
+  if (!glfwInit()) { exit(1); }
 
   WINDOW_WIDTH = width;
   WINDOW_HEIGHT = height;

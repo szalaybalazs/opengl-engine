@@ -12,8 +12,10 @@
 
 class Keyboard {
 private:
+  Window *window;
 
 public:
   Keyboard(Window *window);
   void poll();
+  bool isButtonPressed(unsigned int key);
 };

@@ -18,14 +18,14 @@ struct PointLight {
 
 class Light {
 private:
-  glm::vec3 position = glm::vec3(0.0f);
-  glm::vec3 color = glm::vec3(1.0f);
-  float strength = 1.0f;
+  glm::vec3 position;
+  glm::vec3 color;
+  float strength;
   Camera *camera;
 
-  float constant = 1.0;
-  float linear = 0.045;
-  float quadratic = 0.0032;
+  float constant;
+  float linear;
+  float quadratic;
 
 public:
   Light();

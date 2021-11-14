@@ -3,14 +3,16 @@
 Display::Display(Window *window, int width, int height) {
   this->window = window;
   shader = setupShader("src/glsl/display.vs", "src/glsl/display.fs");
-  framebuffer = new Framebuffer(width, height);
+  colorbuffer = new Framebuffer(width, height);
+  depthbuffer = new Framebuffer(width, height, 1);
   displayMesh = new Mesh("assets/models/display.obj");
 }
 
 Display::Display(Window *window, int dimensions) {
   this->window = window;
   shader = setupShader("src/glsl/display.vs", "src/glsl/display.fs");
-  framebuffer = new Framebuffer(dimensions, dimensions);
+  colorbuffer = new Framebuffer(dimensions, dimensions);
+  depthbuffer = new Framebuffer(dimensions, dimensions, 1);
   displayMesh = new Mesh("assets/models/display.obj");
 }
 
@@ -19,22 +21,26 @@ void Display::render() {
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
   window->clean();
   shader->use();
-  framebuffer->use();
+  colorbuffer->use(0);
+  depthbuffer->use(1, "depthTexture", shader);
   displayMesh->draw();
 }
 
 void Display::bindFramebuffer() {
-  // TESTING
-  {
-    int state = window->getButtonState(GLFW_KEY_1);
-    framebuffer->setType(state == GLFW_PRESS ? 1 : 0);
-  }
-  framebuffer->bind();
+  bindColorBuffer();
+}
+void Display::bindColorBuffer() {
+  colorbuffer->bind();
+  window->clear();
+}
+void Display::bindDepthBuffer() {
+  depthbuffer->bind();
   window->clear();
 }
 
 void Display::unbindFramebuffer() { 
-  framebuffer->unbind();
+  colorbuffer->unbind();
+  depthbuffer->unbind();
 }
 Window* Display::getWindow() { 
   return window;

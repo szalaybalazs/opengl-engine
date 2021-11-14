@@ -5,6 +5,7 @@
 #include <glm/mat4x4.hpp>
 #include <iostream>
 #include <string>
+#include "GLSLProgram.h"
 
 class Framebuffer {
 private:
@@ -28,7 +29,8 @@ public:
   Framebuffer(int width, int height, int type = 0);
   void bind();
   void unbind();
-  void use();
+  void use(unsigned int unit = GL_TEXTURE0);
+  void use(unsigned int unit, char *uniform, GLSLProgram *shader);
 
   void setType(int type);
   unsigned int getType();

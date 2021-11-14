@@ -9,7 +9,13 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/mat4x4.hpp>
 
-Model::Model() {}
+Model::Model() {
+  modelMatrix = glm::mat4(1.0f);
+
+  position = glm::vec3(0.0f);
+  rotation = glm::vec3(0.0f);
+  scale = glm::vec3(1.0f);
+}
 void Model::addMesh(Mesh *mesh) { meshes.push_back(mesh); }
 void Model::addTexture(Texture *texture) { textures.push_back(texture); }
 

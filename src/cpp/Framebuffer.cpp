@@ -74,9 +74,19 @@ void Framebuffer::bind() {
 void Framebuffer::unbind() { glBindFramebuffer(GL_FRAMEBUFFER, 0); }
 
 // Bind the texture of the framebuffer
-void Framebuffer::use() { 
-  glActiveTexture(GL_TEXTURE0);
+void Framebuffer::use(unsigned int unit) { 
+  glActiveTexture(unit);
   glBindTexture(GL_TEXTURE_2D, type == 1 ? depthMap : colorbuffer);
+}
+
+unsigned int units[5] = {
+  GL_TEXTURE0, GL_TEXTURE1, GL_TEXTURE2, GL_TEXTURE3, GL_TEXTURE4
+};
+
+void Framebuffer::use(unsigned int unit, char *uniform, GLSLProgram *shader) { 
+  glActiveTexture(units[unit]);
+  glBindTexture(GL_TEXTURE_2D, type == 1 ? depthMap : colorbuffer);
+  shader->setUniformi(uniform, unit);
 }
 
 void Framebuffer::setType(int type) {

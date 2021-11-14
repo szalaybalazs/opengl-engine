@@ -164,6 +164,12 @@ void GLSLProgram::setUniform(const char *name, float val) {
     glUniform1f(location, val);
 }
 
+void GLSLProgram::setUniformi(const char *name, int val) {
+  GLint location = getUniformLocation(name);
+
+  if (location != -1)
+    glUniform1i(location, val);
+}
 void GLSLProgram::setUniform(const char *name, int val) {
   GLint location = getUniformLocation(name);
 

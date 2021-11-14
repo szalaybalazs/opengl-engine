@@ -45,5 +45,5 @@ public:
   void renderLights();
 
 private:
-  float runningTime = 0;
+  float runningTime;
 };

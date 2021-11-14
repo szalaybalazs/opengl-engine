@@ -35,6 +35,7 @@ public:
   void setUniform(const char *name, const glm::mat3 &m);
   void setUniform(const char *name, float val);
   void setUniform(const char *name, int val);
+  void setUniformi(const char *name, int val);
   void setUniform(const char *name, bool val);
   void printActiveUniforms();
   void printActiveAttribs();

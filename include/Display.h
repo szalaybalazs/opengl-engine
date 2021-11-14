@@ -13,16 +13,18 @@
 class Display {
 private:
   GLSLProgram *shader;
-  Framebuffer *framebuffer;
+  Framebuffer *colorbuffer;
+  Framebuffer *depthbuffer;
   Mesh *displayMesh;
   Window *window;
-  int framebufferDimensions = 12000;
 
 public:
   Display(Window *window, int width, int height);
   Display(Window *window, int dimensions);
   void render();
   void bindFramebuffer();
+  void bindColorBuffer();
+  void bindDepthBuffer();
   void unbindFramebuffer();
   Window* getWindow();
 };

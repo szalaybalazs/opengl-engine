@@ -1,7 +1,13 @@
 #include "Light.h"
 
 Light::Light() {
-  //
+  position = glm::vec3(0.0f);
+  color = glm::vec3(1.0f);
+  strength = 1.0f;
+
+  constant = 1.0;
+  linear = 0.045;
+  quadratic = 0.0032;
 }
 
 void Light::render(GLSLProgram *shader) {

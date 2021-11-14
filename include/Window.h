@@ -25,10 +25,10 @@ private:
   GLFWwindow *window;
   static int width;
   static int height;
-  char *title = "Title";
+  const char *title;
 
 public:
-  Window(int width = 0, int height = 0, char *title = "title");
+  Window(int width = 0, int height = 0, const char *title = "title");
   bool isValid();
   bool shouldClose();
   void poll();
