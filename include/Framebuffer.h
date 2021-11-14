@@ -8,16 +8,28 @@
 
 class Framebuffer {
 private:
+  int width, height;
+  unsigned int type; // 0: COLOUR, 1: DEPTH 
+  
   unsigned int framebuffer;
+  unsigned int framebuffer_depth;
+  unsigned int framebuffer_colour;
   unsigned int colorbuffer;
+  
   unsigned int rbo;
   unsigned int depthrenderbuffer;
   unsigned int depthMap;
-  int width, height;
 
+  void init(int width, int height);
+
+  void initColourBuffer();
+  void initDepthBuffer();
 public:
-  Framebuffer(int width, int height);
+  Framebuffer(int width, int height, int type = 0);
   void bind();
   void unbind();
   void use();
+
+  void setType(int type);
+  unsigned int getType();
 };

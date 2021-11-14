@@ -80,9 +80,9 @@ int main() {
     scene->render(result.deltaTime);
     display->unbindFramebuffer();
     
-    // glDisable(GL_ALPHA_TEST);
+    glDisable(GL_ALPHA_TEST);
     display->render();
-    // glEnable(GL_ALPHA_TEST);
+    glEnable(GL_ALPHA_TEST);
     
     window->poll();
   }

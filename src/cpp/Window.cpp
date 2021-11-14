@@ -106,3 +106,9 @@ WindowDimensions Window::getDimensions() {
 
   return dimensions;
 }
+
+int Window::getButtonState(int button) {
+  int state = glfwGetKey(window, button);
+
+  return state;
+}

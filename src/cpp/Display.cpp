@@ -22,6 +22,9 @@ void Display::render() {
 }
 
 void Display::bindFramebuffer() {
+  // TESTING
+  int state = window->getButtonState(GLFW_KEY_SPACE);
+  framebuffer->setType(state == GLFW_PRESS ? 1 : 0);
   framebuffer->bind();
   window->clear();
 }

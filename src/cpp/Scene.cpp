@@ -9,15 +9,19 @@ Scene::Scene(GLSLProgram *shader) {
 
 void Scene::update(double deltaTime) {
   glm::vec3 cameraPosition = this->camera->getPosition();
-  cameraPosition.y = sin(this->runningTime) + 2.0;
+  // cameraPosition.y = sin(this->runningTime) + 2.0;
+  // cameraPosition.z = sin(this->runningTime) * 10.0;
+  // cameraPosition.x = cos(this->runningTime) * 10.0;
   this->camera->setPosition(cameraPosition);
-  for (int i = 0; i < models.size(); i++) {
-    Model *model = models.at(i);
-    model->update();
-    glm::vec3 currentRotation = model->getRotation();
-    currentRotation.y += deltaTime * 10;
-    model->setRotation(currentRotation);
-  }
+
+
+  // for (int i = 0; i < models.size(); i++) {
+  //   Model *model = models.at(i);
+  //   model->update();
+  //   glm::vec3 currentRotation = model->getRotation();
+  //   currentRotation.y += deltaTime * 10;
+  //   model->setRotation(currentRotation);
+  // }
 }
 
 bool Scene::compareLights(Light *l1, Light *l2) {

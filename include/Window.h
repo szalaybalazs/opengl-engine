@@ -35,6 +35,7 @@ public:
   void setTitle(char *title);
   void clear();
   void clean();
+  int getButtonState(int button);
   static void setDimensions(int width, int height);
   static void setDimensions(WindowDimensions dimensions);
   static WindowDimensions getDimensions();
