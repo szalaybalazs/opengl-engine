@@ -24,4 +24,5 @@ public:
   void render();
   void bindFramebuffer();
   void unbindFramebuffer();
+  Window* getWindow();
 };

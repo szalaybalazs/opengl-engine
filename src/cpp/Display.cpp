@@ -15,6 +15,8 @@ Display::Display(Window *window, int dimensions) {
 }
 
 void Display::render() {
+  // Setting polygon mode to fill
+  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
   window->clean();
   shader->use();
   framebuffer->use();
@@ -23,12 +25,17 @@ void Display::render() {
 
 void Display::bindFramebuffer() {
   // TESTING
-  int state = window->getButtonState(GLFW_KEY_SPACE);
-  framebuffer->setType(state == GLFW_PRESS ? 1 : 0);
+  {
+    int state = window->getButtonState(GLFW_KEY_1);
+    framebuffer->setType(state == GLFW_PRESS ? 1 : 0);
+  }
   framebuffer->bind();
   window->clear();
 }
 
 void Display::unbindFramebuffer() { 
   framebuffer->unbind();
+}
+Window* Display::getWindow() { 
+  return window;
 }

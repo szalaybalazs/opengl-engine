@@ -77,6 +77,12 @@ int main() {
     RenderResult result = window->render();
 
     display->bindFramebuffer();
+    int state = display->getWindow()->getButtonState(GLFW_KEY_2);
+    if (state == GLFW_PRESS) {
+      glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    } else {
+      glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+    }
     scene->render(result.deltaTime);
     display->unbindFramebuffer();
     
