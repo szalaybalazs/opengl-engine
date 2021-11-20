@@ -13,6 +13,7 @@
 #include <GLSLProgram.h>
 
 #include "Camera.h"
+#include "CameraController.h"
 #include "Light.h"
 #include "Model.h"
 
@@ -22,6 +23,7 @@ private:
   std::vector<Light *> lights;
 
   Camera *camera;
+  CameraController *cameraController;
   GLSLProgram *shader;
 
   static Scene *instance;

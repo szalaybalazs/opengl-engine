@@ -24,11 +24,9 @@ GLSLProgram *display;
 
 // Window and camera
 Window *window;
-Keyboard *keyboard;
 
 int main() {
   window = new Window(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
-  keyboard = new Keyboard(window);
 
   if (!window->isValid()) {
     return 1;
@@ -89,7 +87,6 @@ int main() {
     glEnable(GL_ALPHA_TEST);
     
     window->poll();
-    keyboard->poll();
   }
 
   return 0;
