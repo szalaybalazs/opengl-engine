@@ -2,6 +2,7 @@
 #include "Display.h"
 #include "GLSLProgram.h"
 #include "Light.h"
+#include "Camera.h"
 #include "Mesh.h"
 #include "Model.h"
 #include "Scene.h"
@@ -21,6 +22,7 @@ Scene *scene;
 // Shaders
 GLSLProgram *shader;
 GLSLProgram *display;
+Camera *camera;
 
 // Window and camera
 Window *window;
@@ -37,6 +39,7 @@ int main() {
 
   // Setting scene
   scene = scene->getInstance(shader);
+  scene->setCamera(camera);
 
   // Load data
   Mesh *planeMesh = new Mesh("assets/models/plane/model.obj");
@@ -72,9 +75,9 @@ int main() {
     model->setScale(0.4f);
     scene->addModel(model);
   }
-
   while (!window->shouldClose()) {
     RenderResult result = window->render();
+    camera->setPosition(glm::vec3(0.0));
 
     display->bindFramebuffer();
     scene->render(result.deltaTime);

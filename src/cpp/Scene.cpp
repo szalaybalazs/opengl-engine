@@ -75,6 +75,7 @@ void Scene::render(double deltaTime) {
   draw();
 }
 
+void Scene::setCamera(Camera *camera) { this->camera = camera; }
 void Scene::addModel(Model *model) { this->models.push_back(model); }
 void Scene::addLight(Light *light) {
   light->setCamera(camera);

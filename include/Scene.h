@@ -13,7 +13,6 @@
 #include <GLSLProgram.h>
 
 #include "Camera.h"
-#include "CameraController.h"
 #include "Light.h"
 #include "Model.h"
 
@@ -23,7 +22,6 @@ private:
   std::vector<Light *> lights;
 
   Camera *camera;
-  CameraController *cameraController;
   GLSLProgram *shader;
 
   static Scene *instance;
@@ -45,6 +43,7 @@ public:
   void draw();
   void render(double deltaTime);
   void renderLights();
+  void setCamera(Camera *camera);
 
 private:
   float runningTime;
