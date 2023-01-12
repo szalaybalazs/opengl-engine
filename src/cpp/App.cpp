@@ -24,13 +24,13 @@ GLSLProgram *display;
 
 // Window and camera
 Window *window;
-Keyboard *keyboard;
 
-int main() {
+int main()
+{
   window = new Window(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
-  keyboard = new Keyboard(window);
 
-  if (!window->isValid()) {
+  if (!window->isValid())
+  {
     return 1;
   }
 
@@ -43,16 +43,17 @@ int main() {
   // Load data
   Mesh *planeMesh = new Mesh("assets/models/plane/model.obj");
   Texture *planeTexture = new Texture("assets/models/plane/diffuse.jpg");
-  // Load data
-  Mesh *groundMesh = new Mesh("assets/models/ground/model.obj");
-  Texture *groundTexture = new Texture("assets/models/ground/diffuse.jpg");
+
+  // // Load data
+  // Mesh *groundMesh = new Mesh("assets/models/ground/model.obj");
+  // Texture *groundTexture = new Texture("assets/models/ground/diffuse.jpg");
 
   // Display
   Display *display = new Display(window, FRAMEBUFFER_DIMENSIONS);
 
   Model *ground = new Model();
-  ground->addMesh(groundMesh);
-  ground->addTexture(groundTexture);
+  // ground->addMesh(groundMesh);
+  // ground->addTexture(groundTexture);
   scene->addModel(ground);
 
   Light *light1 = new Light();
@@ -64,32 +65,39 @@ int main() {
   scene->addLight(light1);
   scene->addLight(light2);
 
+  Model *model;
   // Test model loader
-  for (int i = 0; i < 5; i++) {
-    Model *model = new Model();
+  for (int i = 0; i < 2; i++)
+  {
+    model = new Model();
     model->addMesh(planeMesh);
     model->addTexture(planeTexture);
-    model->setPosition(glm::vec3((float)i * -16.0f, 0.0f, 0.0f));
+    model->setPosition(glm::vec3((float)(1 - i) * -16.0f, 0.0f, 0.0f));
     model->setRotation(glm::vec3(0.0f, 135.0f, 0.0f));
     model->setScale(0.4f);
     scene->addModel(model);
   }
 
-  while (!window->shouldClose()) {
+  float rotation = 0.0f;
+  while (!window->shouldClose())
+  {
     RenderResult result = window->render();
+
+    rotation = rotation + .025f;
+
+    model->setRotation(glm::vec3(0.0f, rotation, 0.0f));
 
     display->bindFramebuffer();
     scene->render(result.deltaTime);
     display->bindDepthBuffer();
     scene->render(result.deltaTime);
     display->unbindFramebuffer();
-    
+
     glDisable(GL_ALPHA_TEST);
     display->render();
     glEnable(GL_ALPHA_TEST);
-    
+
     window->poll();
-    keyboard->poll();
   }
 
   return 0;

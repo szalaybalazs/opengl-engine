@@ -9,7 +9,8 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/mat4x4.hpp>
 
-Model::Model() {
+Model::Model()
+{
   modelMatrix = glm::mat4(1.0f);
 
   position = glm::vec3(0.0f);
@@ -19,42 +20,53 @@ Model::Model() {
 void Model::addMesh(Mesh *mesh) { meshes.push_back(mesh); }
 void Model::addTexture(Texture *texture) { textures.push_back(texture); }
 
-void Model::updateMeshes() {
-  for (int i = 0; i < this->meshes.size(); i++) {
+void Model::updateMeshes()
+{
+  for (int i = 0; i < this->meshes.size(); i++)
+  {
     meshes.at(i)->update();
   }
 }
-void Model::drawMeshes() {
-  for (int i = 0; i < this->meshes.size(); i++) {
+void Model::drawMeshes()
+{
+  for (int i = 0; i < this->meshes.size(); i++)
+  {
     meshes.at(i)->draw();
   }
 }
 
-void Model::updateTextures() {
-  for (int i = 0; i < this->textures.size(); i++) {
+void Model::updateTextures()
+{
+  for (int i = 0; i < this->textures.size(); i++)
+  {
     textures.at(i)->update();
   }
 }
 
-void Model::drawTextures() {
-  for (int i = 0; i < this->textures.size(); i++) {
+void Model::drawTextures()
+{
+  for (int i = 0; i < this->textures.size(); i++)
+  {
     textures.at(i)->draw();
   }
 }
 
 // Update model
-void Model::update() {
+void Model::update()
+{
   this->updateTextures();
   this->updateMeshes();
 }
 
 // Draw model
-void Model::draw() {
+void Model::draw()
+{
   this->drawTextures();
   this->drawMeshes();
 }
 // Draw model
-void Model::draw(GLSLProgram *shader) {
+void Model::draw(GLSLProgram *shader)
+{
   shader->setUniform("uModelPosition", this->getModelMatrix());
   this->drawTextures();
   this->drawMeshes();
@@ -64,7 +76,8 @@ void Model::draw(GLSLProgram *shader) {
  * Getting the model transformation matrix
  * @return (mat4) the model transformation matrix
  */
-glm::mat4 Model::getModelMatrix() {
+glm::mat4 Model::getModelMatrix()
+{
   return glm::translate(glm::mat4(1.0f), position) *
          glm::scale(glm::mat4(1.0f), scale) *
          glm::rotate(glm::mat4(1.0f), glm::radians(rotation.y),

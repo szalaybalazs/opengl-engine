@@ -11,21 +11,25 @@
 #include <GLFW/glfw3.h>
 #include <GLSLProgram.h>
 
-struct RenderResult {
+struct RenderResult
+{
   double deltaTime;
   double currentTime;
 };
-struct WindowDimensions {
+struct WindowDimensions
+{
   int width;
   int height;
 };
 
-class Window {
+class Window
+{
 private:
   GLFWwindow *window;
   static int width;
   static int height;
   const char *title;
+  int frames = 0;
 
 public:
   Window(int width = 0, int height = 0, const char *title = "title");

@@ -16,7 +16,8 @@
 #include "Light.h"
 #include "Model.h"
 
-class Scene {
+class Scene
+{
 private:
   std::vector<Model *> models;
   std::vector<Light *> lights;
@@ -30,8 +31,10 @@ private:
 public:
   Scene(GLSLProgram *shader);
 
-  static Scene *getInstance(GLSLProgram *shader) {
-    if (!instance) {
+  static Scene *getInstance(GLSLProgram *shader)
+  {
+    if (!instance)
+    {
       instance = new Scene(shader);
     }
     return instance;

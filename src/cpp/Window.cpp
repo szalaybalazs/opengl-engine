@@ -15,8 +15,12 @@ int WINDOW_WIDTH = 0, WINDOW_HEIGHT = 0;
 //   glViewport(0, 0, new_screen_width, new_screen_height);
 // }
 
-Window::Window(int width, int height, const char *title) {
-  if (!glfwInit()) { exit(1); }
+Window::Window(int width, int height, const char *title)
+{
+  if (!glfwInit())
+  {
+    assert(1);
+  }
 
   WINDOW_WIDTH = width;
   WINDOW_HEIGHT = height;
@@ -43,14 +47,19 @@ Window::Window(int width, int height, const char *title) {
   // glFrontFace(GL_CW);
 }
 
-void Window::poll() {
+void Window::poll()
+{
   glfwGetWindowSize(window, &WINDOW_WIDTH, &WINDOW_HEIGHT);
   glfwSwapBuffers(window);
   glfwPollEvents();
 }
 
-RenderResult Window::render() {
+RenderResult Window::render()
+{
   this->clear();
+
+  frames++;
+
   double currentTime = glfwGetTime();
   double deltaTime = currentTime - WINDOW_LAST_FRAME;
   WINDOW_LAST_FRAME = currentTime;
@@ -59,18 +68,23 @@ RenderResult Window::render() {
   result.deltaTime = deltaTime;
   result.currentTime = currentTime;
 
-  std::ostringstream outs;
-  outs.precision(3);
-  outs << std::fixed << this->title << "  "
-       << "FPS: " << (int)ceil(1 / deltaTime) << "  "
-       << "FrameTime: " << deltaTime << "ms";
-  glfwSetWindowTitle(window, outs.str().c_str());
+  if (deltaTime > 100.)
+  {
+    std::ostringstream outs;
+    outs.precision(3);
+    outs << std::fixed << this->title << "  "
+         << "FPS: " << (int)ceil(1 / deltaTime) << "  "
+         << "FrameTime: " << deltaTime << "ms";
+    glfwSetWindowTitle(window, outs.str().c_str());
+  }
   return result;
 }
 
-bool Window::isValid() {
+bool Window::isValid()
+{
   glewExperimental = GL_TRUE;
-  if (glewInit() != GLEW_OK || !window) {
+  if (glewInit() != GLEW_OK || !window)
+  {
     glfwTerminate();
     return false;
   }
@@ -78,26 +92,31 @@ bool Window::isValid() {
 }
 bool Window::shouldClose() { return glfwWindowShouldClose(window); }
 void Window::setTitle(char *title) { this->title = title; }
-void Window::clear() {
+void Window::clear()
+{
   glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
-void Window::clean() {
+void Window::clean()
+{
   this->clear();
   glViewport(0, 0, WINDOW_WIDTH * 2, WINDOW_HEIGHT * 2);
 }
 
-void Window::setDimensions(int width, int height) {
+void Window::setDimensions(int width, int height)
+{
   WINDOW_WIDTH = width;
   WINDOW_HEIGHT = height;
 }
 
-void Window::setDimensions(WindowDimensions dimensions) {
+void Window::setDimensions(WindowDimensions dimensions)
+{
   WINDOW_WIDTH = dimensions.width;
   WINDOW_HEIGHT = dimensions.height;
 }
 
-WindowDimensions Window::getDimensions() {
+WindowDimensions Window::getDimensions()
+{
   WindowDimensions dimensions;
   dimensions.width = WINDOW_WIDTH;
   dimensions.height = WINDOW_HEIGHT;
@@ -105,7 +124,8 @@ WindowDimensions Window::getDimensions() {
   return dimensions;
 }
 
-int Window::getButtonState(int button) {
+int Window::getButtonState(int button)
+{
   int state = glfwGetKey(window, button);
 
   return state;

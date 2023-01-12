@@ -9,12 +9,14 @@ using glm::mat4;
 using glm::vec3;
 using glm::vec4;
 
-GLSLProgram::GLSLProgram() {
+GLSLProgram::GLSLProgram()
+{
   handle = glCreateProgram();
   linked = false;
 }
 
-bool GLSLProgram::compileShaderFromString(const string &source, GLuint type) {
+bool GLSLProgram::compileShaderFromString(const string &source, GLuint type)
+{
   GLuint shaderID = glCreateShader(type);
 
   // Compile Shader
@@ -26,16 +28,20 @@ bool GLSLProgram::compileShaderFromString(const string &source, GLuint type) {
   GLint isCompiled = 0;
   glGetShaderiv(shaderID, GL_COMPILE_STATUS, &isCompiled);
 
-  if (isCompiled == GL_TRUE) {
+  if (isCompiled == GL_TRUE)
+  {
     glAttachShader(handle, shaderID);
-    #if defined(DEBUG_SHADER)
-      printf("Shader compiled successfully.\n");
-    #endif
-  } else {
+#if defined(DEBUG_SHADER)
+    printf("Shader compiled successfully.\n");
+#endif
+  }
+  else
+  {
     GLint maxLength = 0;
     glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
 
-    if (maxLength > 0) {
+    if (maxLength > 0)
+    {
       std::vector<char> infoLog(maxLength + 1);
       glGetShaderInfoLog(shaderID, maxLength, nullptr, infoLog.data());
       logString = string(std::begin(infoLog), std::end(infoLog));
@@ -46,11 +52,14 @@ bool GLSLProgram::compileShaderFromString(const string &source, GLuint type) {
   return isCompiled == GL_TRUE;
 }
 
-bool GLSLProgram::compileShaderFromFile(const char *fileName, GLuint type) {
-  if (fileExists(fileName)) {
+bool GLSLProgram::compileShaderFromFile(const char *fileName, GLuint type)
+{
+  if (fileExists(fileName))
+  {
     string shaderCode;
     std::ifstream ShaderStream(fileName, std::ios::in);
-    if (ShaderStream.is_open()) {
+    if (ShaderStream.is_open())
+    {
       std::string Line = "";
       while (getline(ShaderStream, Line))
         shaderCode += "\n" + Line;
@@ -64,18 +73,22 @@ bool GLSLProgram::compileShaderFromFile(const char *fileName, GLuint type) {
   return false;
 }
 
-bool GLSLProgram::link() {
+bool GLSLProgram::link()
+{
   glLinkProgram(handle);
 
   // Check if the linking worked
   GLint isLinked = 0;
   glGetProgramiv(handle, GL_LINK_STATUS, &isLinked);
-  if (isLinked == GL_TRUE) {
+  if (isLinked == GL_TRUE)
+  {
     linked = true;
-    #if defined(DEBUG_SHADER)
-      printf("Shader program linked successfully.\n");
-    #endif
-  } else {
+#if defined(DEBUG_SHADER)
+    printf("Shader program linked successfully.\n");
+#endif
+  }
+  else
+  {
     GLint maxLength = 0;
     glGetProgramiv(handle, GL_INFO_LOG_LENGTH, &maxLength);
 
@@ -90,7 +103,8 @@ bool GLSLProgram::link() {
   return linked;
 }
 
-void GLSLProgram::use() {
+void GLSLProgram::use()
+{
   if (linked)
     glUseProgram(handle);
 }
@@ -101,95 +115,110 @@ int GLSLProgram::getHandle() { return handle; }
 
 bool GLSLProgram::isLinked() { return linked; }
 
-void GLSLProgram::bindAttribLocation(GLuint location, const char *name) {
+void GLSLProgram::bindAttribLocation(GLuint location, const char *name)
+{
   glBindAttribLocation(handle, location, name);
 }
 
-void GLSLProgram::bindFragDataLocation(GLuint location, const char *name) {
+void GLSLProgram::bindFragDataLocation(GLuint location, const char *name)
+{
   glBindFragDataLocation(handle, location, name);
 }
 
-void GLSLProgram::setUniform(const char *name, float x, float y) {
+void GLSLProgram::setUniform(const char *name, float x, float y)
+{
   GLint location = getUniformLocation(name);
 
   if (location != -1)
     glUniform2f(location, x, y);
 }
 
-void GLSLProgram::setUniform(const char *name, float x, float y, float z) {
+void GLSLProgram::setUniform(const char *name, float x, float y, float z)
+{
   GLint location = getUniformLocation(name);
 
   if (location != -1)
     glUniform3f(location, x, y, z);
 }
 
-void GLSLProgram::setPositionsUniform(const char *name, const float v[]) {
+void GLSLProgram::setPositionsUniform(const char *name, const float v[])
+{
   GLint location = getUniformLocation(name);
 
   if (location != -1)
     glUniform3fv(location, sizeof(v) / sizeof(v[0]), v);
 }
 
-void GLSLProgram::setUniform(const char *name, const vec3 &v) {
+void GLSLProgram::setUniform(const char *name, const vec3 &v)
+{
   GLint location = getUniformLocation(name);
   if (location != -1)
     glUniform3fv(location, 1, value_ptr(v));
 }
 
-void GLSLProgram::setUniform(const char *name, const vec4 &v) {
+void GLSLProgram::setUniform(const char *name, const vec4 &v)
+{
   GLint location = getUniformLocation(name);
 
   if (location != -1)
     glUniform4fv(location, 1, value_ptr(v));
 }
 
-void GLSLProgram::setUniform(const char *name, const mat4 &m) {
+void GLSLProgram::setUniform(const char *name, const mat4 &m)
+{
   GLint location = getUniformLocation(name);
 
   if (location != -1)
     glUniformMatrix4fv(location, 1, GL_FALSE, value_ptr(m));
 }
 
-void GLSLProgram::setUniform(const char *name, const mat3 &m) {
+void GLSLProgram::setUniform(const char *name, const mat3 &m)
+{
   GLint location = getUniformLocation(name);
 
   if (location != -1)
     glUniformMatrix3fv(location, 1, GL_FALSE, value_ptr(m));
 }
 
-void GLSLProgram::setUniform(const char *name, float val) {
+void GLSLProgram::setUniform(const char *name, float val)
+{
   GLint location = getUniformLocation(name);
 
   if (location != -1)
     glUniform1f(location, val);
 }
 
-void GLSLProgram::setUniformi(const char *name, int val) {
+void GLSLProgram::setUniformi(const char *name, int val)
+{
   GLint location = getUniformLocation(name);
 
   if (location != -1)
     glUniform1i(location, val);
 }
-void GLSLProgram::setUniform(const char *name, int val) {
+void GLSLProgram::setUniform(const char *name, int val)
+{
   GLint location = getUniformLocation(name);
 
   if (location != -1)
     glUniform1i(location, val);
 }
 
-void GLSLProgram::setUniform(const char *name, bool val) {
+void GLSLProgram::setUniform(const char *name, bool val)
+{
   GLint location = getUniformLocation(name);
 
   if (location != -1)
     glUniform1i(location, val);
 }
-void GLSLProgram::setUniform(const char *name, const float v[]) {
+void GLSLProgram::setUniform(const char *name, const float v[])
+{
   GLint location = getUniformLocation(name);
 
   if (location != -1)
     glUniform1fv(location, sizeof(v) / sizeof(v[0]), v);
 }
-void GLSLProgram::printActiveUniforms() {
+void GLSLProgram::printActiveUniforms()
+{
   GLint i;
   GLint count;
 
@@ -201,19 +230,21 @@ void GLSLProgram::printActiveUniforms() {
   GLsizei length;             // name length
 
   glGetProgramiv(handle, GL_ACTIVE_UNIFORMS, &count);
-  #if defined(DEBUG_SHADER)
-    printf("Active Uniforms: %d\n", count);
-  #endif
+#if defined(DEBUG_SHADER)
+  printf("Active Uniforms: %d\n", count);
+#endif
 
-  for (i = 0; i < count; i++) {
+  for (i = 0; i < count; i++)
+  {
     glGetActiveUniform(handle, (GLuint)i, bufSize, &length, &size, &type, name);
-    #if defined(DEBUG_SHADER)
-      printf("Uniform #%d Type: %u Name: %s\n", i, type, name);
-    #endif
+#if defined(DEBUG_SHADER)
+    printf("Uniform #%d Type: %u Name: %s\n", i, type, name);
+#endif
   }
 }
 
-void GLSLProgram::printActiveAttribs() {
+void GLSLProgram::printActiveAttribs()
+{
   GLint i;
   GLint count;
 
@@ -225,32 +256,37 @@ void GLSLProgram::printActiveAttribs() {
   GLsizei length;             // name length
 
   glGetProgramiv(handle, GL_ACTIVE_ATTRIBUTES, &count);
-  #if defined(DEBUG_SHADER)
-    printf("Active Attributes: %d\n", count);
-  #endif
+#if defined(DEBUG_SHADER)
+  printf("Active Attributes: %d\n", count);
+#endif
 
-  for (i = 0; i < count; i++) {
+  for (i = 0; i < count; i++)
+  {
     glGetActiveAttrib(handle, (GLuint)i, bufSize, &length, &size, &type, name);
-    #if defined(DEBUG_SHADER)
-      printf("Attribute #%d Type: %u Name: %s\n", i, type, name);
-    #endif
+#if defined(DEBUG_SHADER)
+    printf("Attribute #%d Type: %u Name: %s\n", i, type, name);
+#endif
   }
 }
 
-bool GLSLProgram::fileExists(const string &fileName) {
+bool GLSLProgram::fileExists(const string &fileName)
+{
   std::ifstream infile(fileName);
   return infile.good();
 }
 
-int GLSLProgram::getUniformLocation(const char *name) {
+int GLSLProgram::getUniformLocation(const char *name)
+{
   return glGetUniformLocation(handle, name);
 }
 
 GLSLProgram *setupShader(const char *shaderVSSource,
-                         const char *shaderFSSource) {
+                         const char *shaderFSSource)
+{
   GLSLProgram *shaderProgram = new GLSLProgram();
 
-  if (!shaderProgram->compileShaderFromFile(shaderVSSource, GL_VERTEX_SHADER)) {
+  if (!shaderProgram->compileShaderFromFile(shaderVSSource, GL_VERTEX_SHADER))
+  {
     printf("Vertex shader failed to compile! %s\n",
            shaderProgram->log().c_str());
     delete shaderProgram;
@@ -258,14 +294,16 @@ GLSLProgram *setupShader(const char *shaderVSSource,
   }
 
   if (!shaderProgram->compileShaderFromFile(shaderFSSource,
-                                            GL_FRAGMENT_SHADER)) {
+                                            GL_FRAGMENT_SHADER))
+  {
     printf("Fragment shader failed to compile! %s\n",
            shaderProgram->log().c_str());
     delete shaderProgram;
     exit(1);
   }
 
-  if (!shaderProgram->link()) {
+  if (!shaderProgram->link())
+  {
     printf("Shader program failed to link! %s\n", shaderProgram->log().c_str());
     delete shaderProgram;
     exit(1);
